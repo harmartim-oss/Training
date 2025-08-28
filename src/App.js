@@ -27,6 +27,7 @@ import logo from './assets/logo.svg';
 import privacyImage from './assets/privacy_data_management.svg';
 import cybersecurityImage from './assets/cybersecurity_fundamentals.svg';
 import aiImage from './assets/ai_ethics_guidelines.svg';
+import certificateBg from './assets/certificate-bg.jpg';
 
 // Company renamed to "Ontario Cyber Resilience Authority" (OCRA) for authoritative and professional tone
 // Designation remains Certified CyberSecure Ontario Practitioner (CCOP)
@@ -1253,8 +1254,8 @@ function CertificateView({ calculateOverallProgress, setUserProgress }) {
         </Button>
       </div>
       
-      <div className="certificate-preview p-12 rounded-lg animate-fade-in">
-        <div className="text-center border-4 border-blue-600 p-8 rounded-lg bg-white shadow-2xl">
+      <div className="certificate-preview p-12 rounded-lg animate-fade-in" style={{backgroundImage: `url(${certificateBg})`, backgroundSize: 'cover', backgroundPosition: 'center'}}>
+        <div className="text-center border-4 border-blue-600 p-8 rounded-lg bg-white bg-opacity-95 shadow-2xl">
           <img src={logo} alt="Ontario Cyber Resilience Authority" className="h-24 mx-auto mb-8" />
           <h1 className="text-5xl font-bold text-gray-900 mb-4">Certificate of Completion</h1>
           <p className="text-2xl text-gray-600 mb-12">Certified CyberSecure Ontario Practitioner (CCOP)</p>
