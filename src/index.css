@@ -1,6 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* CSS Reset and Base Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
 
 body {
   margin: 0;
@@ -9,6 +21,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
 }
 
 code {
@@ -86,7 +99,7 @@ code {
 }
 
 .certificate-preview {
-  background: url('./assets/certificate-bg.jpg') no-repeat center/cover;
+  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
   padding: 2rem;
 }
 

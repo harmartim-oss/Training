@@ -9,20 +9,13 @@ import { Badge } from './components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
 import { Alert, AlertDescription, AlertTitle } from './components/ui/alert';
 import { 
-  Shield, 
-  BookOpen, 
   CheckCircle, 
   Lock, 
   Play, 
   Award,
   ArrowRight,
   Home,
-  User,
-  Settings,
   ChevronUp,
-  Brain,
-  Database,
-  Cpu,
   LogOut,
   Star
 } from 'lucide-react';
@@ -30,10 +23,10 @@ import Confetti from 'react-confetti';
 import './App.css';
 
 // Import images
-import logo from './assets/logo.png';
-import privacyImage from './assets/privacy_data_management.png';
-import cybersecurityImage from './assets/cybersecurity_fundamentals.png';
-import aiImage from './assets/ai_ethics_guidelines.png';
+import logo from './assets/logo.svg';
+import privacyImage from './assets/privacy_data_management.svg';
+import cybersecurityImage from './assets/cybersecurity_fundamentals.svg';
+import aiImage from './assets/ai_ethics_guidelines.svg';
 
 // Company renamed to "Ontario Cyber Resilience Authority" (OCRA) for authoritative and professional tone
 // Designation remains Certified CyberSecure Ontario Practitioner (CCOP)
@@ -1022,6 +1015,13 @@ function QuizView({ isModuleUnlocked, setUserProgress, userProgress, setShowConf
   const mId = parseInt(moduleId);
   const module = trainingModules.find(m => m.id === mId);
 
+  // Initialize state hooks first
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [showResults, setShowResults] = useState(false);
+  const [score, setScore] = useState(0);
+  const [correctAnswers, setCorrectAnswers] = useState([]);
+
   if (!module || !isModuleUnlocked(mId)) {
     return <Navigate to="/" />;
   }
@@ -1031,12 +1031,6 @@ function QuizView({ isModuleUnlocked, setUserProgress, userProgress, setShowConf
   if (!allLessonsCompleted) {
     return <Navigate to={`/module/${mId}`} />;
   }
-
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [showResults, setShowResults] = useState(false);
-  const [score, setScore] = useState(0);
-  const [correctAnswers, setCorrectAnswers] = useState([]);
 
   const selectOption = (optionIndex) => {
     setSelectedAnswers(prev => ({ ...prev, [currentQuestion]: optionIndex }));
@@ -1133,6 +1127,15 @@ function QuizView({ isModuleUnlocked, setUserProgress, userProgress, setShowConf
                 key={index}
                 className={`quiz-option p-3 rounded-lg cursor-pointer ${selectedAnswers[currentQuestion] === index ? 'selected' : ''}`}
                 onClick={() => selectOption(index)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    selectOption(index);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label={`Option ${index + 1}: ${option}`}
               >
                 {option}
               </div>
