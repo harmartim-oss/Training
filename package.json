@@ -2,7 +2,7 @@
   "name": "ocra-cyber-training",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://yourusername.github.io/cybersecure-ontario-training",
+  "homepage": "https://harmartim-oss.github.io/Training",
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
