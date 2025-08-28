@@ -2,7 +2,7 @@
   "name": "ocra-cyber-training",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://yourusername.github.io/ocra-cyber-training",
+  "homepage": "https://yourusername.github.io/cybersecure-ontario-training",
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
@@ -14,8 +14,7 @@
     "react-markdown": "^8.0.0",
     "react-router-dom": "^6.11.0",
     "react-scripts": "5.0.1",
-    "remark-gfm": "^3.0.1",
-    "tailwindcss": "^3.3.0"
+    "remark-gfm": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -44,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0"
+    "gh-pages": "^5.0.0",
+    "postcss": "^8.5.6"
   }
 }
