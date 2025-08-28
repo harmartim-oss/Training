@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate, useParams, Link } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, useParams, Link, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
@@ -832,6 +832,7 @@ function App() {
 
 // Dashboard Component with improved layout and badges
 function Dashboard({ calculateOverallProgress, isModuleUnlocked, calculateModuleProgress }) {
+  const navigate = useNavigate();
   const overallProgress = calculateOverallProgress();
 
   return (
@@ -870,7 +871,7 @@ function Dashboard({ calculateOverallProgress, isModuleUnlocked, calculateModule
               <Button 
                 className="w-full cyber-gradient text-white"
                 disabled={!isModuleUnlocked(module.id)}
-                onClick={() => window.location.href = `/module/${module.id}`}
+                onClick={() => navigate(`/module/${module.id}`)}
               >
                 {isModuleUnlocked(module.id) ? 'Enter Module' : <Lock className="mr-2" />} Locked
               </Button>
@@ -888,6 +889,7 @@ function Dashboard({ calculateOverallProgress, isModuleUnlocked, calculateModule
 // Module View Component with alerts
 function ModuleView({ isModuleUnlocked, userProgress, setUserProgress }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const moduleId = parseInt(id);
   const module = trainingModules.find(m => m.id === moduleId);
 
@@ -901,7 +903,7 @@ function ModuleView({ isModuleUnlocked, userProgress, setUserProgress }) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Button variant="ghost" onClick={() => window.location.href = '/'}>← Back to Dashboard</Button>
+      <Button variant="ghost" onClick={() => navigate('/')}>← Back to Dashboard</Button>
       <header className="text-center mb-8">
         <h1 className="text-3xl font-bold">{module.title}</h1>
         <p className="text-gray-600">{module.description}</p>
@@ -935,7 +937,7 @@ function ModuleView({ isModuleUnlocked, userProgress, setUserProgress }) {
                 <Button 
                   variant="ghost"
                   disabled={lessonsCompleted < lesson.id - 1}
-                  onClick={() => window.location.href = `/module/${moduleId}/lesson/${lesson.id}`}
+                  onClick={() => navigate(`/module/${moduleId}/lesson/${lesson.id}`)}
                 >
                   <ArrowRight />
                 </Button>
@@ -947,7 +949,7 @@ function ModuleView({ isModuleUnlocked, userProgress, setUserProgress }) {
           {lessonsCompleted === module.lessons.length ? (
             <Button 
               className="w-full cyber-gradient text-white"
-              onClick={() => window.location.href = `/module/${moduleId}/quiz`}
+              onClick={() => navigate(`/module/${moduleId}/quiz`)}
             >
               Start Quiz
             </Button>
@@ -966,6 +968,7 @@ function ModuleView({ isModuleUnlocked, userProgress, setUserProgress }) {
 // Lesson View Component with improved markdown rendering and confetti on completion
 function LessonView({ isModuleUnlocked, setUserProgress, setShowConfetti }) {
   const { moduleId, lessonId } = useParams();
+  const navigate = useNavigate();
   const mId = parseInt(moduleId);
   const lId = parseInt(lessonId);
   const module = trainingModules.find(m => m.id === mId);
@@ -981,14 +984,14 @@ function LessonView({ isModuleUnlocked, setUserProgress, setShowConfetti }) {
       completedLessons: [...new Set([...prev.completedLessons, `${moduleId}-${lessonId}`])]
     }));
     setShowConfetti(true);
-    setTimeout(() => window.location.href = `/module/${moduleId}`, 2000);
+    setTimeout(() => navigate(`/module/${moduleId}`), 2000);
   };
 
   const content = lessonContents[`${moduleId}-${lessonId}`] || 'Content not available.';
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <Button variant="ghost" onClick={() => window.location.href = `/module/${moduleId}`}>← Back to Module</Button>
+      <Button variant="ghost" onClick={() => navigate(`/module/${moduleId}`)}>← Back to Module</Button>
       <header className="mb-8 text-center">
         <h1 className="text-3xl font-bold mb-2">{lesson.title}</h1>
         <p className="text-gray-600">{lesson.duration}</p>
@@ -1013,6 +1016,7 @@ function LessonView({ isModuleUnlocked, setUserProgress, setShowConfetti }) {
 // Quiz View Component with detailed feedback and confetti on pass
 function QuizView({ isModuleUnlocked, setUserProgress, userProgress, setShowConfetti }) {
   const { moduleId } = useParams();
+  const navigate = useNavigate();
   const mId = parseInt(moduleId);
   const module = trainingModules.find(m => m.id === mId);
 
@@ -1062,7 +1066,7 @@ function QuizView({ isModuleUnlocked, setUserProgress, userProgress, setShowConf
   if (showResults) {
     return (
       <div className="container mx-auto px-4 py-8 max-w-2xl">
-        <Button variant="ghost" onClick={() => window.location.href = `/module/${moduleId}`}>← Back to Module</Button>
+        <Button variant="ghost" onClick={() => navigate(`/module/${moduleId}`)}>← Back to Module</Button>
         <Card className="cyber-card animate-fade-in">
           <CardHeader>
             <CardTitle>Quiz Results</CardTitle>
@@ -1113,7 +1117,7 @@ function QuizView({ isModuleUnlocked, setUserProgress, userProgress, setShowConf
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
-      <Button variant="ghost" onClick={() => window.location.href = `/module/${moduleId}`}>← Back to Module</Button>
+      <Button variant="ghost" onClick={() => navigate(`/module/${moduleId}`)}>← Back to Module</Button>
       <Card className="cyber-card animate-fade-in">
         <CardHeader>
           <CardTitle>{module.title} Quiz</CardTitle>
@@ -1177,6 +1181,7 @@ function QuizView({ isModuleUnlocked, setUserProgress, userProgress, setShowConf
 
 // Certificate View Component with updated designation and company name
 function CertificateView({ calculateOverallProgress, setUserProgress }) {
+  const navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [showCertificate, setShowCertificate] = useState(false);
 
@@ -1203,7 +1208,7 @@ function CertificateView({ calculateOverallProgress, setUserProgress }) {
               <p className="mb-4">
                 You must complete all modules and quizzes to earn your certificate.
               </p>
-              <Button onClick={() => window.location.href = '/'}>
+              <Button onClick={() => navigate('/')}>
                 Continue Training
               </Button>
             </CardContent>
